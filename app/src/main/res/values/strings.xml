@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MegaSenaTA</string>
+    <string name="titulo">Boa Sorte!</string>
+    <string name="hint_numero">digite um número entre 6 e 15</string>
+    <string name="tools_resultado">resultado</string>
+    <string name="gerador_numero">gerar numeros</string>
+</resources>
