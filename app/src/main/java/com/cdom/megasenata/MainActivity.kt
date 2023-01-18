@@ -3,7 +3,6 @@ package com.cdom.megasenata
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -30,26 +29,26 @@ class MainActivity : AppCompatActivity() {
 
         mostrarApostaAntiga(resultadoSalvo)
         botaoGerador.setOnClickListener{
-            val texto = numerosEdit.text.toString()
+            val numero = numerosEdit.text.toString()
 
-            val aposta = gerarNumeros(texto)
+            val aposta = gerarNumeros(numero)
             salvarNumeros(aposta)
             mostrarNumeros(aposta)
         }
     }
 
     private fun mostrarApostaAntiga(apostaAntiga: String?) {
-        txtResultado = binding.txtResultado
+        if(apostaAntiga == null) return
 
-        txtResultado.text.let {
-            "última aposta: $apostaAntiga"
-        }
+        txtResultado = binding.txtResultado
+        txtResultado.text = "Última aposta: $apostaAntiga"
+
     }
 
-    private fun gerarNumeros(texto: String): String? {
+    private fun gerarNumeros(numero: String): String? {
         val setDeNumeros = mutableSetOf<Int>()
         val random = Random()
-        val qntNumeros = if(texto.isEmpty()) 0 else texto.toInt()
+        val qntNumeros = if(numero.isEmpty()) 0 else numero.toInt()
 
         if(qntNumeros > 15 || qntNumeros < 6) {
             Toast.makeText(
@@ -61,14 +60,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         while(true) {
-            val numero = random.nextInt(60)
-            setDeNumeros.add(numero + 1)
+            val numeroRandom = random.nextInt(60)
+            setDeNumeros.add(numeroRandom + 1)
 
-            if(setDeNumeros.size == texto.toInt()){
-                return setDeNumeros.sorted().joinToString(" - ")
+            if(setDeNumeros.size == numero.toInt()){
                 break
             }
         }
+        return setDeNumeros.sorted().joinToString(" - ")
     }
 
     private fun salvarNumeros(aposta: String?) {
@@ -80,10 +79,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun mostrarNumeros(aposta: String?) {
-        txtResultado = binding.txtResultado
+        if(aposta == null) return
 
-        txtResultado.text.let {
-            aposta
-        }
+        txtResultado = binding.txtResultado
+        txtResultado.text = aposta
     }
 }
